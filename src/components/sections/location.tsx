@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { site } from "@/lib/site";
 
 const LOCATION_PINS = [
@@ -50,9 +50,121 @@ const LOCATION_PINS = [
   },
 ];
 
+function clampPan(val: number) {
+  return Math.min(82, Math.max(-82, val));
+}
+
 export function LocationSection() {
   const [activePinId, setActivePinId] = useState(1);
+  const [isHeadingVisible, setIsHeadingVisible] = useState(false);
+  const [isMapVisible, setIsMapVisible] = useState(false);
+  const [pan, setPan] = useState({ x: 0, y: 0 });
+  const [isDragging, setIsDragging] = useState(false);
+
+  const headingRef = useRef<HTMLHeadingElement>(null);
+  const mapRef = useRef<HTMLDivElement>(null);
+  const dragRef = useRef<{ pointerId: number; x: number; y: number; panX: number; panY: number } | null>(null);
+
   const activePin = LOCATION_PINS.find((p) => p.id === activePinId) || LOCATION_PINS[0];
+
+  useEffect(() => {
+    const headingEl = headingRef.current;
+    const mapEl = mapRef.current;
+
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reducedMotion || !("IntersectionObserver" in window)) {
+      setIsHeadingVisible(true);
+      setIsMapVisible(true);
+      return;
+    }
+
+    const headingObserver = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsHeadingVisible(true);
+          headingObserver.disconnect();
+        }
+      },
+      { threshold: 0.12, rootMargin: "0px 0px -10% 0px" }
+    );
+
+    const mapObserver = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsMapVisible(true);
+          mapObserver.disconnect();
+        }
+      },
+      { threshold: 0.25 }
+    );
+
+    if (headingEl) headingObserver.observe(headingEl);
+    if (mapEl) mapObserver.observe(mapEl);
+
+    const onScroll = () => {
+      const vh = window.innerHeight || 1;
+      if (!isHeadingVisible && headingEl) {
+        const rect = headingEl.getBoundingClientRect();
+        if (rect.top < vh * 0.90 && rect.bottom > 0) {
+          setIsHeadingVisible(true);
+          headingObserver.disconnect();
+        }
+      }
+      if (!isMapVisible && mapEl) {
+        const rect = mapEl.getBoundingClientRect();
+        if (rect.top < vh * 0.85 && rect.bottom > 0) {
+          setIsMapVisible(true);
+          mapObserver.disconnect();
+        }
+      }
+    };
+
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+
+    return () => {
+      headingObserver.disconnect();
+      mapObserver.disconnect();
+      window.removeEventListener("scroll", onScroll);
+    };
+  }, [isHeadingVisible, isMapVisible]);
+
+  const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (!e.isPrimary || e.button !== 0 || dragRef.current) return;
+    if ((e.target as HTMLElement).closest("button, .location-project-card")) return;
+    e.currentTarget.setPointerCapture(e.pointerId);
+    dragRef.current = {
+      pointerId: e.pointerId,
+      x: e.clientX,
+      y: e.clientY,
+      panX: pan.x,
+      panY: pan.y,
+    };
+    setIsDragging(true);
+  };
+
+  const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (dragRef.current && dragRef.current.pointerId === e.pointerId) {
+      setPan({
+        x: clampPan(dragRef.current.panX + e.clientX - dragRef.current.x),
+        y: clampPan(dragRef.current.panY + e.clientY - dragRef.current.y),
+      });
+    }
+  };
+
+  const handlePointerUp = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (dragRef.current && dragRef.current.pointerId === e.pointerId) {
+      dragRef.current = null;
+      setIsDragging(false);
+    }
+  };
+
+  const handlePointerCancel = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (dragRef.current && dragRef.current.pointerId === e.pointerId) {
+      dragRef.current = null;
+      setIsDragging(false);
+    }
+  };
 
   return (
     <section id="location" className="page-gutter bg-background py-28 md:py-40" data-theme="light">
@@ -60,7 +172,12 @@ export function LocationSection() {
         <div className="grid gap-10 xl:grid-cols-[minmax(0,1fr)_minmax(24rem,0.72fr)] xl:items-end">
           <div>
             <p className="eyebrow text-accent">12 - Location</p>
-            <h2 className="location-heading editorial-heading mt-6 font-display text-[clamp(3rem,13vw,7.8rem)] tracking-[-0.04em] text-heading sm:text-[clamp(4rem,7vw,7.8rem)]">
+            <h2
+              ref={headingRef}
+              className="section-title-3d location-heading editorial-heading mt-6 font-display text-[clamp(3rem,13vw,7.8rem)] tracking-[-0.04em] text-heading sm:text-[clamp(4rem,7vw,7.8rem)]"
+              data-title-visible={isHeadingVisible ? "true" : "false"}
+              data-visible={isHeadingVisible ? "true" : "false"}
+            >
               <span className="location-heading-line">Close to the city.</span>
               <span className="location-heading-line">Closer to calm.</span>
             </h2>
@@ -97,13 +214,22 @@ export function LocationSection() {
         </div>
 
         <div
+          ref={mapRef}
           className="location-map mt-20"
-          data-dragging="false"
-          data-visible="false"
+          data-dragging={isDragging ? "true" : "false"}
+          data-visible={isMapVisible ? "true" : "false"}
           role="region"
           aria-label="Draggable brochure location map"
+          onPointerDown={handlePointerDown}
+          onPointerMove={handlePointerMove}
+          onPointerUp={handlePointerUp}
+          onPointerCancel={handlePointerCancel}
+          onLostPointerCapture={handlePointerCancel}
         >
-          <div className="location-map-canvas" style={{ transform: "translate3d(0px, 0px, 0)" }}>
+          <div
+            className="location-map-canvas"
+            style={{ transform: `translate3d(${pan.x}px, ${pan.y}px, 0)` }}
+          >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               alt="Location map showing Saanidhya Greens near Hansapura and the Vadodara-Dabhoi Main Road."

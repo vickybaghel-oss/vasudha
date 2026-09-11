@@ -2,34 +2,62 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
+
+function getHeaderDarkState(
+  sections: { id: string; theme?: string; top: number; bottom: number }[],
+  scrollY: number,
+  viewportHeight: number,
+  isHome = true
+) {
+  const currentSection = sections.find(({ top, bottom }) => top <= 64 && bottom > 64);
+  if (!currentSection) return false;
+  if (currentSection.id === "hero" && isHome && scrollY < 0.55 * viewportHeight) {
+    return false; // At the top of hero, header is LIGHT theme (dark text/border)
+  }
+  return currentSection.theme === "dark";
+}
 
 export function Header() {
+  const pathname = usePathname();
   const [isCompact, setIsCompact] = useState(false);
   const [isDark, setIsDark] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const dialogRef = useRef<HTMLDialogElement>(null);
 
   useEffect(() => {
-    function handleScroll() {
+    function updateHeader() {
       const scrollY = window.scrollY;
-      setIsCompact(scrollY > 60);
+      const vh = window.innerHeight || 1;
+      const isHome = !pathname || pathname === "/";
 
-      // Check current section under header
-      const headerHeight = 80;
-      const elements = document.elementsFromPoint(window.innerWidth / 2, headerHeight);
-      const section = elements.find((el) => el.tagName === "SECTION" || el.hasAttribute("data-theme"));
-      if (section) {
-        const theme = section.getAttribute("data-theme");
-        setIsDark(theme === "dark");
-      } else {
-        setIsDark(scrollY < 100);
-      }
+      // Compact state matches original site: past 0.55 of hero
+      setIsCompact(scrollY > 0.55 * vh);
+
+      const sections = Array.from(
+        document.querySelectorAll<HTMLElement>("[data-theme]"),
+        (el) => {
+          const rect = el.getBoundingClientRect();
+          return {
+            id: el.id,
+            theme: el.dataset.theme,
+            top: rect.top,
+            bottom: rect.bottom,
+          };
+        }
+      );
+
+      setIsDark(getHeaderDarkState(sections, scrollY, vh, isHome));
     }
 
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll();
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+    updateHeader();
+    window.addEventListener("scroll", updateHeader, { passive: true });
+    window.addEventListener("resize", updateHeader);
+    return () => {
+      window.removeEventListener("scroll", updateHeader);
+      window.removeEventListener("resize", updateHeader);
+    };
+  }, [pathname]);
 
   const openNav = () => {
     setIsOpen(true);

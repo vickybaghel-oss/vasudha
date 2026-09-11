@@ -50,6 +50,7 @@ export const metadata: Metadata = {
 };
 
 import { JsonLd } from "@/components/seo/json-ld";
+import { PageLoader } from "@/components/layout/page-loader";
 
 export default function RootLayout({
   children,
@@ -59,6 +60,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${manrope.variable} ${cormorant.variable} h-full antialiased`}>
       <body className="min-h-full bg-background text-foreground font-sans">
+        <PageLoader />
         <JsonLd />
         <Header />
         {children}

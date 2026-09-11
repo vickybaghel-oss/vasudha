@@ -24,3 +24,13 @@
     transform: translateY(0);
   }
 }
+@keyframes clubVisualIn {
+  0% {
+    opacity: 0;
+    transform: scale(1.035);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

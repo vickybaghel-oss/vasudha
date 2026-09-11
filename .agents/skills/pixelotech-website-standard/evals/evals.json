@@ -1,0 +1,42 @@
+{
+  "skill_name": "pixelotech-website-standard",
+  "evals": [
+    {
+      "id": 0,
+      "name": "dental-clinic-full-site",
+      "prompt": "I need a website for a new client — BrightSmile Dental, a family dental clinic in Austin, TX. Domain will be brightsmiledental.com. Pages: home, services, about, contact. Brand: teal (#0d9488) as the primary color, clean and friendly feel. Contact info: (512) 555-0100, hello@brightsmiledental.com, 123 Main St, Austin TX 78701. Their GA4 ID is still pending from the client. Build the site and tell me exactly what's left before we can launch.",
+      "expected_output": "A Next.js static-export project (TypeScript, Tailwind, shadcn/ui, bun) with all 4 pages, teal theming, contact form wired through the central forms layer, full SEO (metadata, sitemap, robots, canonical, JSON-LD Dentist schema, OG image), GA4 guarded behind env var, passing build, readiness check run, and a clear launch-blocker list (GA4 ID, real forms endpoint, domain/DNS).",
+      "files": [],
+      "assertions": [
+        "Static-export build succeeded: build output directory contains index.html plus services, about, and contact pages as static HTML",
+        "Company stack used: Next.js + TypeScript + Tailwind + shadcn/ui, and no other UI component library (no MUI/Chakra/Bootstrap/DaisyUI) in package.json",
+        "Contact form submits through a single central submission layer (one module owning the endpoint) and does NOT use any third-party form service (Formspree, EmailJS, mailto, etc.)",
+        "SEO complete in build output: sitemap.xml and robots.txt exist, every page has a canonical link, unique title, and unique meta description",
+        "JSON-LD structured data on the homepage with a dentist/local-business type including the real phone and address",
+        "Social sharing ready: og:title and og:image present on every page and an OG image file ships with the site",
+        "GA4 handled correctly despite missing ID: analytics code is guarded behind an env var (site builds without it) and the missing GA4 ID is explicitly listed as a launch blocker",
+        "A styled 404 page (404.html) and a security-headers file (_headers) are in the build output",
+        "An automated readiness/QA check was actually run against the build output and its results reported (readiness-output.txt or equivalent evidence)",
+        "The final answer gives a concrete launch-blocker list including at least: GA4 ID, forms endpoint config, and domain/DNS setup"
+      ]
+    },
+    {
+      "id": 1,
+      "name": "landscaping-blog-seo",
+      "prompt": "set up a new site for GreenPeak Landscaping (greenpeaklandscaping.com), they're in Denver CO. they want strong SEO and a blog section with 2 starter posts about lawn care. pages: home, services, about, blog, contact. earthy green branding. make sure it's production ready before you finish",
+      "expected_output": "Same standard stack with an MDX blog (2 posts with complete frontmatter, generateStaticParams, BlogPosting JSON-LD), blog routes included in the generated sitemap, LocalBusiness/landscaping JSON-LD, and the automated readiness check run against the build output with failures fixed.",
+      "files": [],
+      "assertions": [
+        "Static-export build succeeded: build output contains static HTML for home, services, about, blog index, contact, AND two individual blog post pages",
+        "Company stack used: Next.js + TypeScript + Tailwind + shadcn/ui with bun, no other UI component library",
+        "Blog posts are file-based content (MDX/Markdown in the repo) with complete frontmatter: title, description, date, and author on both posts",
+        "Blog post URLs are included in the generated sitemap.xml (not just the top-level pages)",
+        "Structured data present: local-business-type JSON-LD on the homepage and BlogPosting/Article JSON-LD on each blog post page",
+        "SEO fundamentals on every page: canonical link, unique title, unique meta description, og:title and og:image",
+        "Contact form submits through a single central submission layer, not a third-party form service",
+        "An automated readiness/QA check was actually run against the build output and its results reported, with failures fixed (not just listed)",
+        "A styled 404 page and security-headers file (_headers) are in the build output"
+      ]
+    }
+  ]
+}

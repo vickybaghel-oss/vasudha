@@ -1,0 +1,258 @@
+[
+  {
+    "index": 1,
+    "filename": "image-01.png",
+    "alt": "Saanidhya Greens",
+    "className": "site-brand-logo",
+    "byteLength": 62981,
+    "b64Prefix": "iVBORw0KGgoAAAANSUhEUgAAA4QAAAEiCAYAAACh"
+  },
+  {
+    "index": 2,
+    "filename": "image-02.webp",
+    "alt": "Sunset aerial view of the Saanidhya Greens clubhouse and landscaped arrival.",
+    "className": "",
+    "byteLength": 60312,
+    "b64Prefix": "UklGRpDrAABXRUJQVlA4IITrAADQXQOdASogA8IB"
+  },
+  {
+    "index": 3,
+    "filename": "image-03.webp",
+    "alt": "Sunset aerial view of the Saanidhya Greens clubhouse, sports courts and surrounding landscape.",
+    "className": "hero-scroll-image-media",
+    "byteLength": 292954,
+    "b64Prefix": "UklGRlJ4BABXRUJQVlA4IEZ4BACwJRKdASqABzgE"
+  },
+  {
+    "index": 4,
+    "filename": "image-04.webp",
+    "alt": "Sculptural arrival stairway and landscaped edge at Saanidhya Greens during sunset.",
+    "className": "",
+    "byteLength": 268438,
+    "b64Prefix": "UklGRo4YBABXRUJQVlA4IIIYBACQZQydASpABoQD"
+  },
+  {
+    "index": 5,
+    "filename": "image-05.webp",
+    "alt": "Private theatre seating with warm acoustic wall panels at Saanidhya Greens.",
+    "className": "",
+    "byteLength": 27342,
+    "b64Prefix": "UklGRsZqAABXRUJQVlA4ILpqAADwVgKdASogA78B"
+  },
+  {
+    "index": 6,
+    "filename": "image-06.webp",
+    "alt": "Green arrival arch and landscaped driveway at Saanidhya Greens during sunset.",
+    "className": "",
+    "byteLength": 73720,
+    "b64Prefix": "UklGRvAfAQBXRUJQVlA4IOQfAQAwswOdASogA8IB"
+  },
+  {
+    "index": 7,
+    "filename": "image-07.webp",
+    "alt": "Modern gym interior with cardio and strength equipment at Saanidhya Greens.",
+    "className": "",
+    "byteLength": 45676,
+    "b64Prefix": "UklGRmSyAABXRUJQVlA4IFiyAAAw4AKdASogA70B"
+  },
+  {
+    "index": 8,
+    "filename": "image-08.webp",
+    "alt": "Warm private suite with layered wood ceiling, lounge seating and garden-facing window.",
+    "className": "",
+    "byteLength": 159780,
+    "b64Prefix": "UklGRhxwAgBXRUJQVlA4IBBwAgCwUQudASpABoQD"
+  },
+  {
+    "index": 9,
+    "filename": "image-09.webp",
+    "alt": "Clubhouse facade with poolside landscape and evening-lit architectural screens.",
+    "className": "",
+    "byteLength": 114316,
+    "b64Prefix": "UklGRoS+AQBXRUJQVlA4IHi+AQCwfQWdASroAzMC"
+  },
+  {
+    "index": 10,
+    "filename": "image-10.webp",
+    "alt": "Warm clubhouse suite with sculptural wall detail, bed and lounge seating.",
+    "className": "object-cover",
+    "byteLength": 132544,
+    "b64Prefix": "UklGRrgFAgBXRUJQVlA4IKwFAgAQmwmdASpABoQD"
+  },
+  {
+    "index": 11,
+    "filename": "image-11.webp",
+    "alt": "Daytime clubhouse arrival with pool terrace, landscaped lawns and road frontage.",
+    "className": "object-cover",
+    "byteLength": 237282,
+    "b64Prefix": "UklGRtqeAwBXRUJQVlA4IM6eAwAwRgydASpABoQD"
+  },
+  {
+    "index": 12,
+    "filename": "image-12.webp",
+    "alt": "Indoor recreation lounge with table tennis, pool tables and relaxed social seating.",
+    "className": "object-cover",
+    "byteLength": 135664,
+    "b64Prefix": "UklGRugRAgBXRUJQVlA4INwRAgBw/QidASpABoQD"
+  },
+  {
+    "index": 13,
+    "filename": "image-13.webp",
+    "alt": "",
+    "className": "object-cover",
+    "byteLength": 159198,
+    "b64Prefix": "UklGRtZtAgBXRUJQVlA4IMptAgDwnAmdASpABowD"
+  },
+  {
+    "index": 14,
+    "filename": "image-14.webp",
+    "alt": "",
+    "className": "object-cover",
+    "byteLength": 190124,
+    "b64Prefix": "UklGRqTmAgBXRUJQVlA4IJjmAgAQSAudASpABoQD"
+  },
+  {
+    "index": 15,
+    "filename": "image-15.webp",
+    "alt": "",
+    "className": "object-cover",
+    "byteLength": 198516,
+    "b64Prefix": "UklGRmwHAwBXRUJQVlA4IGAHAwBwkAudASpABoQD"
+  },
+  {
+    "index": 16,
+    "filename": "image-16.webp",
+    "alt": "",
+    "className": "object-cover",
+    "byteLength": 101056,
+    "b64Prefix": "UklGRriKAQBXRUJQVlA4IKyKAQBwQAadASpABoQD"
+  },
+  {
+    "index": 17,
+    "filename": "image-17.webp",
+    "alt": "Golden hour front view of the Saanidhya Greens clubhouse, lawn and arrival drive.",
+    "className": "object-cover",
+    "byteLength": 184908,
+    "b64Prefix": "UklGRkTSAgBXRUJQVlA4IDjSAgBQWwudASpABoQD"
+  },
+  {
+    "index": 18,
+    "filename": "image-18.webp",
+    "alt": "",
+    "className": "object-cover",
+    "byteLength": 292954,
+    "b64Prefix": "UklGRlJ4BABXRUJQVlA4IEZ4BACwJRKdASqABzgE"
+  },
+  {
+    "index": 19,
+    "filename": "image-19.webp",
+    "alt": "",
+    "className": "object-cover",
+    "byteLength": 201472,
+    "b64Prefix": "UklGRvgSAwBXRUJQVlA4IOwSAwDwDw2dASqABzkE"
+  },
+  {
+    "index": 20,
+    "filename": "image-20.webp",
+    "alt": "",
+    "className": "object-cover",
+    "byteLength": 237282,
+    "b64Prefix": "UklGRtqeAwBXRUJQVlA4IM6eAwAwRgydASpABoQD"
+  },
+  {
+    "index": 21,
+    "filename": "image-21.webp",
+    "alt": "",
+    "className": "object-cover",
+    "byteLength": 177786,
+    "b64Prefix": "UklGRnK2AgBXRUJQVlA4IGa2AgBw2QqdASpABoQD"
+  },
+  {
+    "index": 22,
+    "filename": "image-22.webp",
+    "alt": "",
+    "className": "object-cover",
+    "byteLength": 131844,
+    "b64Prefix": "UklGRvwCAgBXRUJQVlA4IPACAgDQagidASpABnkD"
+  },
+  {
+    "index": 23,
+    "filename": "image-23.webp",
+    "alt": "",
+    "className": "object-cover",
+    "byteLength": 102998,
+    "b64Prefix": "UklGRk6SAQBXRUJQVlA4IEKSAQDQOwedASpABoQD"
+  },
+  {
+    "index": 24,
+    "filename": "image-24.webp",
+    "alt": "",
+    "className": "object-cover",
+    "byteLength": 292954,
+    "b64Prefix": "UklGRlJ4BABXRUJQVlA4IEZ4BACwJRKdASqABzgE"
+  },
+  {
+    "index": 25,
+    "filename": "image-25.webp",
+    "alt": "",
+    "className": "object-cover",
+    "byteLength": 201472,
+    "b64Prefix": "UklGRvgSAwBXRUJQVlA4IOwSAwDwDw2dASqABzkE"
+  },
+  {
+    "index": 26,
+    "filename": "image-26.webp",
+    "alt": "",
+    "className": "object-cover",
+    "byteLength": 237282,
+    "b64Prefix": "UklGRtqeAwBXRUJQVlA4IM6eAwAwRgydASpABoQD"
+  },
+  {
+    "index": 27,
+    "filename": "image-27.webp",
+    "alt": "",
+    "className": "object-cover",
+    "byteLength": 177786,
+    "b64Prefix": "UklGRnK2AgBXRUJQVlA4IGa2AgBw2QqdASpABoQD"
+  },
+  {
+    "index": 28,
+    "filename": "image-28.webp",
+    "alt": "",
+    "className": "object-cover",
+    "byteLength": 131844,
+    "b64Prefix": "UklGRvwCAgBXRUJQVlA4IPACAgDQagidASpABnkD"
+  },
+  {
+    "index": 29,
+    "filename": "image-29.webp",
+    "alt": "",
+    "className": "object-cover",
+    "byteLength": 102998,
+    "b64Prefix": "UklGRk6SAQBXRUJQVlA4IEKSAQDQOwedASpABoQD"
+  },
+  {
+    "index": 30,
+    "filename": "image-30.webp",
+    "alt": "Sunset aerial view of the Saanidhya Greens clubhouse, sports courts and surrounding landscape.",
+    "className": "object-contain",
+    "byteLength": 292954,
+    "b64Prefix": "UklGRlJ4BABXRUJQVlA4IEZ4BACwJRKdASqABzgE"
+  },
+  {
+    "index": 31,
+    "filename": "image-31.webp",
+    "alt": "Location map showing Saanidhya Greens near Hansapura and the Vadodara-Dabhoi Main Road.",
+    "className": "object-cover",
+    "byteLength": 56650,
+    "b64Prefix": "UklGRkLdAABXRUJQVlA4IDbdAAAQUwSdASpQBQgC"
+  },
+  {
+    "index": 32,
+    "filename": "image-32.png",
+    "alt": "Saanidhya Greens",
+    "className": "site-footer-brand-logo",
+    "byteLength": 62981,
+    "b64Prefix": "iVBORw0KGgoAAAANSUhEUgAAA4QAAAEiCAYAAACh"
+  }
+]

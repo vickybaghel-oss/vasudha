@@ -51,6 +51,7 @@ export const metadata: Metadata = {
 
 import { JsonLd } from "@/components/seo/json-ld";
 import { PageLoader } from "@/components/layout/page-loader";
+import { ScrollReveal } from "@/components/layout/scroll-reveal";
 
 export default function RootLayout({
   children,
@@ -82,6 +83,7 @@ export default function RootLayout({
       </head>
       <body className="min-h-full bg-background text-foreground font-sans">
         <PageLoader />
+        <ScrollReveal />
         <JsonLd />
         <Header />
         {children}

@@ -51,12 +51,32 @@
   transform: translateY(-4px) !important;
 }
 
-.reveal-text:not([data-visible="true"]) > span {
+.reveal-text {
+  overflow-wrap: normal;
+  text-wrap: balance;
+  word-break: normal;
+  -webkit-hyphens: none;
+  hyphens: none;
+  padding-bottom: 0.22em;
+  overflow: hidden;
+}
+
+.reveal-text > span {
   opacity: 0;
+  transition: transform 1.2s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.9s;
+  display: block;
   transform: translateY(105%);
 }
 
-.reveal-text[data-visible="true"] > span {
+.reveal-text[data-visible="true"] > span,
+html:not(.motion-ready) .reveal-text > span {
   opacity: 1;
   transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-text > span {
+    opacity: 1 !important;
+    transform: none !important;
+  }
 }

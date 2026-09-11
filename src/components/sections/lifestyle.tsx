@@ -48,11 +48,29 @@ const CLUB_CHAPTERS = [
 export function ClubLifestyle() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [prevIndex, setPrevIndex] = useState(0);
+  const [isHeadingVisible, setIsHeadingVisible] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
+  const headingRef = useRef<HTMLHeadingElement>(null);
 
   useEffect(() => {
     const section = sectionRef.current;
     if (!section) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsHeadingVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.08 }
+    );
+
+    if (headingRef.current) {
+      observer.observe(headingRef.current);
+    } else {
+      observer.observe(section);
+    }
 
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
     const editorialQuery = window.matchMedia("(min-width: 1024px)");
@@ -63,6 +81,13 @@ export function ClubLifestyle() {
 
     const updateActiveChapter = () => {
       ticking = false;
+      if (section) {
+        const rect = section.getBoundingClientRect();
+        if (rect.top < window.innerHeight * 0.95 && rect.bottom > 0) {
+          setIsHeadingVisible(true);
+        }
+      }
+
       if (reducedMotion.matches || !editorialQuery.matches) {
         setActiveIndex(0);
         return;
@@ -96,6 +121,7 @@ export function ClubLifestyle() {
     window.addEventListener("resize", onScrollOrResize);
 
     return () => {
+      observer.disconnect();
       window.removeEventListener("scroll", onScrollOrResize);
       window.removeEventListener("resize", onScrollOrResize);
     };
@@ -176,7 +202,11 @@ export function ClubLifestyle() {
 
         <div className="page-gutter absolute inset-x-0 top-24 z-10 pointer-events-none">
           <p className="eyebrow text-white/55">04 · Club lifestyle</p>
-          <h2 className="reveal-text editorial-heading editorial-heading-compact club-heading mt-5 font-display text-[clamp(4rem,7vw,7.5rem)] tracking-[-0.04em] text-white">
+          <h2
+            ref={headingRef}
+            className="reveal-text editorial-heading editorial-heading-compact club-heading mt-5 font-display text-[clamp(4rem,7vw,7.5rem)] tracking-[-0.04em] text-white"
+            data-visible={isHeadingVisible ? "true" : "false"}
+          >
             <span>A culture&nbsp;of belonging.</span>
           </h2>
         </div>

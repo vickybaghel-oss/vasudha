@@ -6,6 +6,13 @@ export function ScrollReveal() {
   useEffect(() => {
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+    const titles = Array.from(
+      document.querySelectorAll<HTMLElement>("main section h1, main section h2")
+    );
+    titles.forEach((title) => {
+      title.classList.add("section-title-3d");
+    });
+
     const revealItems = Array.from(
       document.querySelectorAll<HTMLElement>(
         ".reveal-text, .philosophy-card, .section-title-3d"
@@ -31,11 +38,12 @@ export function ScrollReveal() {
           }
         });
       },
-      { rootMargin: "0px 0px -8% 0px", threshold: 0.08 }
+      { rootMargin: "0px 0px -10% 0px", threshold: 0.12 }
     );
 
     revealItems.forEach((item) => {
-      if (item.getBoundingClientRect().top < window.innerHeight * 0.92) {
+      const rect = item.getBoundingClientRect();
+      if (rect.top < window.innerHeight * 0.90 && rect.bottom > 0) {
         reveal(item);
       } else {
         observer.observe(item);
@@ -45,9 +53,9 @@ export function ScrollReveal() {
     const onScroll = () => {
       const vh = window.innerHeight || 1;
       revealItems.forEach((item) => {
-        if (item.dataset.visible !== "true") {
+        if (item.dataset.titleVisible !== "true" || item.dataset.visible !== "true") {
           const rect = item.getBoundingClientRect();
-          if (rect.top < vh * 0.92 && rect.bottom > 0) {
+          if (rect.top < vh * 0.90 && rect.bottom > 0) {
             reveal(item);
             observer.unobserve(item);
           }
@@ -60,6 +68,10 @@ export function ScrollReveal() {
     return () => {
       observer.disconnect();
       window.removeEventListener("scroll", onScroll);
+      titles.forEach((title) => {
+        title.classList.remove("section-title-3d");
+        delete title.dataset.titleVisible;
+      });
     };
   }, []);
 

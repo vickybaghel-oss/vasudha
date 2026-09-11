@@ -65,9 +65,32 @@ export function ScrollReveal() {
 
     window.addEventListener("scroll", onScroll, { passive: true });
 
+    const handleAnchorClick = (e: MouseEvent) => {
+      const anchor = (e.target as HTMLElement)?.closest?.("a");
+      if (!anchor) return;
+      const href = anchor.getAttribute("href");
+      if (!href || !href.startsWith("#") || href === "#") return;
+
+      // Skip if anchor is inside dialog (handled directly in Header component)
+      if (anchor.closest("dialog")) return;
+
+      const targetEl = document.querySelector<HTMLElement>(href);
+      if (targetEl) {
+        e.preventDefault();
+        const top = href === "#hero" ? 0 : targetEl.getBoundingClientRect().top + window.scrollY;
+        import("@/lib/smooth-scroll").then(({ smoothScrollTo }) => {
+          smoothScrollTo(top, { duration: 850 });
+        });
+        window.history.pushState(null, "", href);
+      }
+    };
+
+    document.addEventListener("click", handleAnchorClick);
+
     return () => {
       observer.disconnect();
       window.removeEventListener("scroll", onScroll);
+      document.removeEventListener("click", handleAnchorClick);
       titles.forEach((title) => {
         title.classList.remove("section-title-3d");
         delete title.dataset.titleVisible;

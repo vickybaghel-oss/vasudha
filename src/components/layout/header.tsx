@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import { smoothScrollToTarget } from "@/lib/smooth-scroll";
 
 function getHeaderDarkState(
   sections: { id: string; theme?: string; top: number; bottom: number }[],
@@ -73,13 +74,29 @@ export function Header() {
     }
   };
 
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    e.preventDefault();
+    if (isOpen) {
+      closeNav();
+    }
+    setTimeout(() => {
+      smoothScrollToTarget(href, { duration: 850 });
+      window.history.pushState(null, "", href);
+    }, 25);
+  };
+
   return (
     <header
       className="site-header"
       data-dark={isDark ? "true" : "false"}
       data-compact={isCompact ? "true" : "false"}
     >
-      <a href="#hero" className="site-brand" aria-label="Saanidhya Greens">
+      <a
+        href="#hero"
+        className="site-brand"
+        aria-label="Saanidhya Greens"
+        onClick={(e) => handleNavClick(e, "#hero")}
+      >
         <Image
           src="/images/image-01.png"
           alt="Saanidhya Greens"
@@ -91,7 +108,11 @@ export function Header() {
       </a>
 
       <div className="flex items-center gap-3">
-        <a className="site-enquire" href="#contact">
+        <a
+          className="site-enquire"
+          href="#contact"
+          onClick={(e) => handleNavClick(e, "#contact")}
+        >
           Enquire
         </a>
         <button
@@ -128,7 +149,7 @@ export function Header() {
           <a
             href="#nature"
             className="nav-menu-link font-display text-[clamp(2.5rem,6vw,5.5rem)] leading-none"
-            onClick={closeNav}
+            onClick={(e) => handleNavClick(e, "#nature")}
           >
             <sup className="nav-menu-index">01</sup>
             <span className="nav-menu-label">Nature</span>
@@ -136,7 +157,7 @@ export function Header() {
           <a
             href="#lifestyle"
             className="nav-menu-link font-display text-[clamp(2.5rem,6vw,5.5rem)] leading-none"
-            onClick={closeNav}
+            onClick={(e) => handleNavClick(e, "#lifestyle")}
           >
             <sup className="nav-menu-index">02</sup>
             <span className="nav-menu-label">Lifestyle</span>
@@ -144,7 +165,7 @@ export function Header() {
           <a
             href="#gallery"
             className="nav-menu-link font-display text-[clamp(2.5rem,6vw,5.5rem)] leading-none"
-            onClick={closeNav}
+            onClick={(e) => handleNavClick(e, "#gallery")}
           >
             <sup className="nav-menu-index">03</sup>
             <span className="nav-menu-label">Gallery</span>
@@ -152,7 +173,7 @@ export function Header() {
           <a
             href="#location"
             className="nav-menu-link font-display text-[clamp(2.5rem,6vw,5.5rem)] leading-none"
-            onClick={closeNav}
+            onClick={(e) => handleNavClick(e, "#location")}
           >
             <sup className="nav-menu-index">04</sup>
             <span className="nav-menu-label">Location</span>
@@ -160,7 +181,7 @@ export function Header() {
           <a
             href="#contact"
             className="nav-menu-link font-display text-[clamp(2.5rem,6vw,5.5rem)] leading-none"
-            onClick={closeNav}
+            onClick={(e) => handleNavClick(e, "#contact")}
           >
             <sup className="nav-menu-index">05</sup>
             <span className="nav-menu-label">Enquire</span>

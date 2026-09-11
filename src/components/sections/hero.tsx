@@ -1,6 +1,80 @@
+"use client";
+
+import { useEffect, useRef } from "react";
+
 export function HeroSection() {
+  const heroRef = useRef<HTMLElement>(null);
+  const shellRef = useRef<HTMLDivElement>(null);
+  const imageRef = useRef<HTMLImageElement>(null);
+
+  useEffect(() => {
+    const hero = heroRef.current;
+    const shell = shellRef.current;
+    const image = imageRef.current;
+    if (!hero || !shell || !image) return;
+
+    const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const mobileQuery = window.matchMedia("(max-width: 900px)");
+
+    let ticking = false;
+
+    function updateHero() {
+      ticking = false;
+      const hero = heroRef.current;
+      const shell = shellRef.current;
+      const image = imageRef.current;
+      if (!hero || !shell || !image) return;
+
+      if (reducedMotionQuery.matches || mobileQuery.matches) {
+        shell.style.height = "";
+        shell.style.top = "";
+        shell.style.marginInline = "";
+        shell.style.borderRadius = "";
+        image.style.transform = "";
+        return;
+      }
+
+      const rect = hero.getBoundingClientRect();
+      const viewport = window.innerHeight || 1;
+      const progress = Math.min(Math.max(-rect.top / Math.max(viewport * 0.75, 1), 0), 1);
+
+      const height = 25 + 75 * progress;
+      const top = 75 - 75 * progress;
+      const gutterFactor = 1 - progress;
+      const radius = 1.15 * gutterFactor;
+      const scale = 1.08 - 0.08 * progress;
+
+      shell.style.height = `${height.toFixed(3)}svh`;
+      shell.style.top = `${top.toFixed(3)}svh`;
+      shell.style.marginInline = `calc(var(--page-gutter) * ${gutterFactor.toFixed(3)})`;
+      shell.style.borderRadius = `${radius.toFixed(3)}rem ${radius.toFixed(3)}rem 0 0`;
+      image.style.transform = `scale(${scale.toFixed(4)})`;
+    }
+
+    function onScrollOrResize() {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(updateHero);
+      }
+    }
+
+    window.addEventListener("scroll", onScrollOrResize, { passive: true });
+    window.addEventListener("resize", onScrollOrResize);
+    reducedMotionQuery.addEventListener?.("change", onScrollOrResize);
+    mobileQuery.addEventListener?.("change", onScrollOrResize);
+
+    updateHero();
+
+    return () => {
+      window.removeEventListener("scroll", onScrollOrResize);
+      window.removeEventListener("resize", onScrollOrResize);
+      reducedMotionQuery.removeEventListener?.("change", onScrollOrResize);
+      mobileQuery.removeEventListener?.("change", onScrollOrResize);
+    };
+  }, []);
+
   return (
-    <section id="hero" className="hero-section" data-theme="dark">
+    <section id="hero" ref={heroRef} className="hero-section" data-theme="dark">
       <div className="hero-stage">
         <div className="hero-copy">
           <p className="hero-kicker">Premium residential open plots / Vadodara</p>
@@ -49,9 +123,10 @@ export function HeroSection() {
           <span>Architectural precision</span>
         </div>
       </div>
-      <div className="hero-scroll-image" data-initial-visible="25">
+      <div ref={shellRef} className="hero-scroll-image" data-initial-visible="25">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
+          ref={imageRef}
           alt="Sunset aerial view of the Saanidhya Greens clubhouse, sports courts and surrounding landscape."
           decoding="async"
           className="hero-scroll-image-media"

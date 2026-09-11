@@ -81,11 +81,17 @@ export function ModernAmenities() {
 
     const checkScroll = () => {
       const vh = window.innerHeight || 1;
-      if (gridEl && !isGridVisible && gridEl.getBoundingClientRect().top < vh * 0.82) {
-        setIsGridVisible(true);
+      if (gridEl) {
+        const rect = gridEl.getBoundingClientRect();
+        if (rect.top < vh * 0.88 && rect.bottom > 0) {
+          setIsGridVisible(true);
+        }
       }
-      if (headingEl && !isHeadingVisible && headingEl.getBoundingClientRect().top < vh * 0.88) {
-        setIsHeadingVisible(true);
+      if (headingEl) {
+        const rect = headingEl.getBoundingClientRect();
+        if (rect.top < vh * 0.92 && rect.bottom > 0) {
+          setIsHeadingVisible(true);
+        }
       }
     };
 
@@ -97,7 +103,7 @@ export function ModernAmenities() {
       gridObserver?.disconnect();
       window.removeEventListener("scroll", checkScroll);
     };
-  }, [isGridVisible, isHeadingVisible]);
+  }, []);
 
   return (
     <section id="modern-amenities" className="page-gutter bg-[#AF7259] py-28 text-white md:py-40" data-theme="dark">

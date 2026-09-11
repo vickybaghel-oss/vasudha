@@ -34,3 +34,29 @@
     transform: scale(1);
   }
 }
+.amenity-grid[data-visible="false"] > .amenity-tile {
+  opacity: 0 !important;
+  transform: translateY(1.5rem) !important;
+  pointer-events: none;
+}
+
+.amenity-grid[data-visible="true"] > .amenity-tile {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+  pointer-events: auto;
+}
+
+.amenity-grid[data-visible="true"] > .amenity-tile:hover {
+  background: rgba(255, 255, 255, 0.1) !important;
+  transform: translateY(-4px) !important;
+}
+
+.reveal-text:not([data-visible="true"]) > span {
+  opacity: 0;
+  transform: translateY(105%);
+}
+
+.reveal-text[data-visible="true"] > span {
+  opacity: 1;
+  transform: translateY(0);
+}

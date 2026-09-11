@@ -59,6 +59,22 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${manrope.variable} ${cormorant.variable} h-full antialiased`}>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){
+              try {
+                var r = document.documentElement;
+                var rm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+                var pf = window.matchMedia('(pointer: fine)').matches;
+                r.dataset.motion = rm ? 'reduced' : 'full';
+                r.dataset.pointer = pf ? 'fine' : 'coarse';
+                r.classList.add('motion-ready');
+              } catch (e) {}
+            })();`,
+          }}
+        />
+      </head>
       <body className="min-h-full bg-background text-foreground font-sans">
         <PageLoader />
         <JsonLd />

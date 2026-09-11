@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const MODERN_AMENITIES_LIST = [
   { id: "pool", icon: "≈", name: "Swimming Pool", desc: "A calm water court for leisure and movement." },
@@ -31,10 +31,73 @@ const MODERN_AMENITIES_LIST = [
 
 export function ModernAmenities() {
   const [expandedId, setExpandedId] = useState<string | null>(null);
+  const [isGridVisible, setIsGridVisible] = useState(false);
+  const [isHeadingVisible, setIsHeadingVisible] = useState(false);
+
+  const gridRef = useRef<HTMLDivElement>(null);
+  const headingRef = useRef<HTMLHeadingElement>(null);
 
   const toggle = (id: string) => {
     setExpandedId((prev) => (prev === id ? null : id));
   };
+
+  useEffect(() => {
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reducedMotion || !("IntersectionObserver" in window)) {
+      setIsGridVisible(true);
+      setIsHeadingVisible(true);
+      return;
+    }
+
+    const headingEl = headingRef.current;
+    let headingObserver: IntersectionObserver | null = null;
+    if (headingEl) {
+      headingObserver = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            setIsHeadingVisible(true);
+            headingObserver?.disconnect();
+          }
+        },
+        { threshold: 0.15 }
+      );
+      headingObserver.observe(headingEl);
+    }
+
+    const gridEl = gridRef.current;
+    let gridObserver: IntersectionObserver | null = null;
+    if (gridEl) {
+      gridObserver = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            setIsGridVisible(true);
+            gridObserver?.disconnect();
+          }
+        },
+        { threshold: 0.1 }
+      );
+      gridObserver.observe(gridEl);
+    }
+
+    const checkScroll = () => {
+      const vh = window.innerHeight || 1;
+      if (gridEl && !isGridVisible && gridEl.getBoundingClientRect().top < vh * 0.82) {
+        setIsGridVisible(true);
+      }
+      if (headingEl && !isHeadingVisible && headingEl.getBoundingClientRect().top < vh * 0.88) {
+        setIsHeadingVisible(true);
+      }
+    };
+
+    checkScroll();
+    window.addEventListener("scroll", checkScroll, { passive: true });
+
+    return () => {
+      headingObserver?.disconnect();
+      gridObserver?.disconnect();
+      window.removeEventListener("scroll", checkScroll);
+    };
+  }, [isGridVisible, isHeadingVisible]);
 
   return (
     <section id="modern-amenities" className="page-gutter bg-[#AF7259] py-28 text-white md:py-40" data-theme="dark">
@@ -42,7 +105,11 @@ export function ModernAmenities() {
         <div className="grid gap-10 xl:grid-cols-[1fr_0.7fr] xl:items-end">
           <div>
             <p className="eyebrow text-white/55">05 · Modern amenities</p>
-            <h2 className="reveal-text editorial-heading editorial-heading-compact mt-6 font-display text-[clamp(4rem,7vw,7.8rem)] tracking-[-0.04em] text-white">
+            <h2
+              ref={headingRef}
+              className="reveal-text editorial-heading editorial-heading-compact mt-6 font-display text-[clamp(4rem,7vw,7.8rem)] tracking-[-0.04em] text-white"
+              data-visible={isHeadingVisible ? "true" : "false"}
+            >
               <span>Freedom to indulge.</span>
             </h2>
           </div>
@@ -51,7 +118,11 @@ export function ModernAmenities() {
           </p>
         </div>
 
-        <div className="amenity-grid mt-20 grid grid-cols-2 border-l border-t border-white/22 md:grid-cols-4 lg:grid-cols-6" data-visible="true">
+        <div
+          ref={gridRef}
+          className="amenity-grid mt-20 grid grid-cols-2 border-l border-t border-white/22 md:grid-cols-4 lg:grid-cols-6"
+          data-visible={isGridVisible ? "true" : "false"}
+        >
           {MODERN_AMENITIES_LIST.map((item, idx) => {
             const isExpanded = expandedId === item.id;
             const delay = (idx % 6) * 45;

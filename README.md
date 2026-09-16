@@ -22,5 +22,5 @@ npm run dev
 npm run build
 
 # Readiness check
-node .agents/skills/pixelotech-website-standard/scripts/readiness-check.mjs out --domain https://saanidhyagreens.com
+node .agents/skills/pixelotech-website-standard/scripts/readiness-check.mjs out --domain https://vasudhaagroup.com
 ```

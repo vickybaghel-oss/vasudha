@@ -3,8 +3,8 @@ export const site = {
   tagline: "Luxury Plotted Living in Vadodara",
   description:
     "Discover nature-led premium residential plots with a resort clubhouse and extensive lifestyle amenities at Saanidhya Greens, Vadodara.",
-  url: "https://saanidhyagreens.com",
-  domain: "https://saanidhyagreens.com",
+  url: "https://vasudhaagroup.com",
+  domain: "https://vasudhaagroup.com",
   phone: "+91 95129 00744",
   phones: [
     "+91 95129 00744",
@@ -12,7 +12,7 @@ export const site = {
     "+91 95129 00746",
     "+91 95129 00747",
   ],
-  email: "info@saanidhyagreens.com",
+  email: "info@vasudhaagroup.com",
   address: {
     street: "Hansapura, opposite Fartikui, Dabhoi Road",
     city: "Vadodara",

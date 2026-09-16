@@ -35,7 +35,7 @@ question, then pass it along and confirm simply — *"Done, I've let Aaron know.
 
 ## Project facts
 
-- Production domain: https://saanidhyagreens.com
+- Production domain: https://vasudhaagroup.com
 - Hosting: Cloudflare Pages (company account) · Repo: company GitHub org
 - Blog: none
 - Package manager: npm / bun

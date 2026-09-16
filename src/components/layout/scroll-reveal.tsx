@@ -69,23 +69,48 @@ export function ScrollReveal() {
       const anchor = (e.target as HTMLElement)?.closest?.("a");
       if (!anchor) return;
       const href = anchor.getAttribute("href");
-      if (!href || !href.startsWith("#") || href === "#") return;
+      if (!href) return;
+
+      const isHome = window.location.pathname === "/" || window.location.pathname === "";
+      let hash = "";
+
+      if (href.startsWith("#") && href.length > 1) {
+        hash = href;
+      } else if (href.startsWith("/#") && href.length > 2 && isHome) {
+        hash = href.slice(1);
+      }
+
+      if (!hash || hash === "#") return;
 
       // Skip if anchor is inside dialog (handled directly in Header component)
       if (anchor.closest("dialog")) return;
 
-      const targetEl = document.querySelector<HTMLElement>(href);
+      const targetEl = document.querySelector<HTMLElement>(hash);
       if (targetEl) {
         e.preventDefault();
-        const top = href === "#hero" ? 0 : targetEl.getBoundingClientRect().top + window.scrollY;
+        const top = hash === "#hero" ? 0 : targetEl.getBoundingClientRect().top + window.scrollY;
         import("@/lib/smooth-scroll").then(({ smoothScrollTo }) => {
           smoothScrollTo(top, { duration: 850 });
         });
-        window.history.pushState(null, "", href);
+        window.history.pushState(null, "", hash);
       }
     };
 
     document.addEventListener("click", handleAnchorClick);
+
+    // If page arrived with a hash (e.g. redirected from another page to /#location)
+    if (window.location.hash && (window.location.pathname === "/" || window.location.pathname === "")) {
+      const initialHash = window.location.hash;
+      const initialTarget = document.querySelector<HTMLElement>(initialHash);
+      if (initialTarget) {
+        setTimeout(() => {
+          const top = initialHash === "#hero" ? 0 : initialTarget.getBoundingClientRect().top + window.scrollY;
+          import("@/lib/smooth-scroll").then(({ smoothScrollTo }) => {
+            smoothScrollTo(top, { duration: 850 });
+          });
+        }, 150);
+      }
+    }
 
     return () => {
       observer.disconnect();

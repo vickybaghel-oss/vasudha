@@ -74,14 +74,21 @@ export function Header() {
     }
   };
 
-  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+  const isHome = !pathname || pathname === "/";
+
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, hash: string) => {
     e.preventDefault();
     if (isOpen) {
       closeNav();
     }
+    if (!isHome) {
+      // If on another page (e.g. /privacy or 404), redirect to home page with hash
+      window.location.href = hash === "#hero" ? "/" : `/${hash}`;
+      return;
+    }
     setTimeout(() => {
-      smoothScrollToTarget(href, { duration: 850 });
-      window.history.pushState(null, "", href);
+      smoothScrollToTarget(hash, { duration: 850 });
+      window.history.pushState(null, "", hash === "#hero" ? "/" : hash);
     }, 25);
   };
 
@@ -92,7 +99,7 @@ export function Header() {
       data-compact={isCompact ? "true" : "false"}
     >
       <a
-        href="#hero"
+        href={isHome ? "#hero" : "/"}
         className="site-brand"
         aria-label="Saanidhya Greens"
         onClick={(e) => handleNavClick(e, "#hero")}
@@ -110,7 +117,7 @@ export function Header() {
       <div className="flex items-center gap-3">
         <a
           className="site-enquire"
-          href="#contact"
+          href={isHome ? "#contact" : "/#contact"}
           onClick={(e) => handleNavClick(e, "#contact")}
         >
           Enquire
@@ -147,7 +154,7 @@ export function Header() {
 
         <nav className="nav-menu-list">
           <a
-            href="#nature"
+            href={isHome ? "#nature" : "/#nature"}
             className="nav-menu-link font-display text-[clamp(2.5rem,6vw,5.5rem)] leading-none"
             onClick={(e) => handleNavClick(e, "#nature")}
           >
@@ -155,7 +162,7 @@ export function Header() {
             <span className="nav-menu-label">Nature</span>
           </a>
           <a
-            href="#lifestyle"
+            href={isHome ? "#lifestyle" : "/#lifestyle"}
             className="nav-menu-link font-display text-[clamp(2.5rem,6vw,5.5rem)] leading-none"
             onClick={(e) => handleNavClick(e, "#lifestyle")}
           >
@@ -163,7 +170,7 @@ export function Header() {
             <span className="nav-menu-label">Lifestyle</span>
           </a>
           <a
-            href="#gallery"
+            href={isHome ? "#gallery" : "/#gallery"}
             className="nav-menu-link font-display text-[clamp(2.5rem,6vw,5.5rem)] leading-none"
             onClick={(e) => handleNavClick(e, "#gallery")}
           >
@@ -171,7 +178,7 @@ export function Header() {
             <span className="nav-menu-label">Gallery</span>
           </a>
           <a
-            href="#location"
+            href={isHome ? "#location" : "/#location"}
             className="nav-menu-link font-display text-[clamp(2.5rem,6vw,5.5rem)] leading-none"
             onClick={(e) => handleNavClick(e, "#location")}
           >
@@ -179,7 +186,7 @@ export function Header() {
             <span className="nav-menu-label">Location</span>
           </a>
           <a
-            href="#contact"
+            href={isHome ? "#contact" : "/#contact"}
             className="nav-menu-link font-display text-[clamp(2.5rem,6vw,5.5rem)] leading-none"
             onClick={(e) => handleNavClick(e, "#contact")}
           >

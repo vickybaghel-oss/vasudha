@@ -1,12 +1,32 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { site } from "@/lib/site";
+import { smoothScrollToTarget } from "@/lib/smooth-scroll";
 
 export function Footer() {
+  const pathname = usePathname();
+  const isHome = !pathname || pathname === "/";
+
+  const handleSectionClick = (e: React.MouseEvent<HTMLAnchorElement>, hash: string) => {
+    if (isHome) {
+      e.preventDefault();
+      smoothScrollToTarget(hash, { duration: 850 });
+      window.history.pushState(null, "", hash === "#hero" ? "/" : hash);
+    }
+  };
+
   return (
     <footer className="site-footer page-gutter" data-theme="light">
       <div className="site-footer-inner">
-        <div className="site-footer-brand" aria-label="Saanidhya Greens">
+        <Link
+          href="/"
+          className="site-footer-brand"
+          aria-label="Saanidhya Greens"
+          onClick={(e) => handleSectionClick(e, "#hero")}
+        >
           <Image
             src="/images/image-01.png"
             alt="Saanidhya Greens"
@@ -15,22 +35,62 @@ export function Footer() {
             loading="lazy"
             className="site-footer-brand-logo"
           />
-        </div>
+        </Link>
 
         <nav className="site-footer-column" aria-label="Project links">
           <p>Project</p>
-          <a href="#luxury">Premium Plots</a>
-          <a href="#lifestyle">Club Lifestyle</a>
-          <a href="#amenities">Amenities</a>
-          <a href="#gallery">Gallery</a>
+          <a
+            href={isHome ? "#luxury" : "/#luxury"}
+            onClick={(e) => handleSectionClick(e, "#luxury")}
+          >
+            Premium Plots
+          </a>
+          <a
+            href={isHome ? "#lifestyle" : "/#lifestyle"}
+            onClick={(e) => handleSectionClick(e, "#lifestyle")}
+          >
+            Club Lifestyle
+          </a>
+          <a
+            href={isHome ? "#amenities" : "/#amenities"}
+            onClick={(e) => handleSectionClick(e, "#amenities")}
+          >
+            Amenities
+          </a>
+          <a
+            href={isHome ? "#gallery" : "/#gallery"}
+            onClick={(e) => handleSectionClick(e, "#gallery")}
+          >
+            Gallery
+          </a>
         </nav>
 
         <nav className="site-footer-column" aria-label="Explore links">
           <p>Explore</p>
-          <a href="#nature">Nature</a>
-          <a href="#gallery">Gallery</a>
-          <a href="#location">Location</a>
-          <a href="#contact">Contact</a>
+          <a
+            href={isHome ? "#nature" : "/#nature"}
+            onClick={(e) => handleSectionClick(e, "#nature")}
+          >
+            Nature
+          </a>
+          <a
+            href={isHome ? "#gallery" : "/#gallery"}
+            onClick={(e) => handleSectionClick(e, "#gallery")}
+          >
+            Gallery
+          </a>
+          <a
+            href={isHome ? "#location" : "/#location"}
+            onClick={(e) => handleSectionClick(e, "#location")}
+          >
+            Location
+          </a>
+          <a
+            href={isHome ? "#contact" : "/#contact"}
+            onClick={(e) => handleSectionClick(e, "#contact")}
+          >
+            Contact
+          </a>
         </nav>
 
         <div className="site-footer-column site-footer-connect">
@@ -42,7 +102,7 @@ export function Footer() {
 
         <div className="site-footer-action">
           <p>Begin your enquiry</p>
-          <form className="site-footer-enquiry" action="#contact">
+          <form className="site-footer-enquiry" action={isHome ? "#contact" : "/#contact"}>
             <label className="sr-only" htmlFor="footer-email">
               Email address
             </label>
@@ -64,7 +124,12 @@ export function Footer() {
         <p>Premium residential open plots / Vadodara</p>
         <div>
           <Link href="/privacy/">Privacy</Link>
-          <a href="#contact">Enquire</a>
+          <a
+            href={isHome ? "#contact" : "/#contact"}
+            onClick={(e) => handleSectionClick(e, "#contact")}
+          >
+            Enquire
+          </a>
           <span>© 2026 Saanidhya Greens</span>
         </div>
       </div>

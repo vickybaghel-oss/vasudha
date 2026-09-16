@@ -1,0 +1,6 @@
+include:
+  - project: client/website/ci-templates
+    ref: main
+    file: cloudflare-pages.yml
+    inputs:
+      output_dir: "out"

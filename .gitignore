@@ -39,3 +39,6 @@ scratch/
 temp_skill/
 *.zip
 vasudha website.html
+Saanidhya_Greens_Launch_Checklist.pdf
+checklist.html
+scripts/generate-pdf.mjs

@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import { site } from "@/lib/site";
 import { smoothScrollToTarget } from "@/lib/smooth-scroll";
 
 function getHeaderDarkState(
@@ -60,6 +61,25 @@ export function Header() {
     };
   }, [pathname]);
 
+  useEffect(() => {
+    const dialog = dialogRef.current;
+    if (!dialog) return;
+
+    const handleCancel = (event: Event) => {
+      event.preventDefault();
+      setIsOpen(false);
+      dialog.close();
+    };
+    const handleClose = () => setIsOpen(false);
+
+    dialog.addEventListener("cancel", handleCancel);
+    dialog.addEventListener("close", handleClose);
+    return () => {
+      dialog.removeEventListener("cancel", handleCancel);
+      dialog.removeEventListener("close", handleClose);
+    };
+  }, []);
+
   const openNav = () => {
     setIsOpen(true);
     if (dialogRef.current && !dialogRef.current.open) {
@@ -101,12 +121,12 @@ export function Header() {
       <a
         href={isHome ? "#hero" : "/"}
         className="site-brand"
-        aria-label="Saanidhya Greens"
+        aria-label={site.name}
         onClick={(e) => handleNavClick(e, "#hero")}
       >
         <Image
           src="/images/image-01.png"
-          alt="Saanidhya Greens"
+          alt={site.name}
           width={900}
           height={290}
           priority
@@ -153,46 +173,17 @@ export function Header() {
         </button>
 
         <nav className="nav-menu-list">
-          <a
-            href={isHome ? "#nature" : "/#nature"}
-            className="nav-menu-link font-display text-[clamp(2.5rem,6vw,5.5rem)] leading-none"
-            onClick={(e) => handleNavClick(e, "#nature")}
-          >
-            <sup className="nav-menu-index">01</sup>
-            <span className="nav-menu-label">Nature</span>
-          </a>
-          <a
-            href={isHome ? "#lifestyle" : "/#lifestyle"}
-            className="nav-menu-link font-display text-[clamp(2.5rem,6vw,5.5rem)] leading-none"
-            onClick={(e) => handleNavClick(e, "#lifestyle")}
-          >
-            <sup className="nav-menu-index">02</sup>
-            <span className="nav-menu-label">Lifestyle</span>
-          </a>
-          <a
-            href={isHome ? "#gallery" : "/#gallery"}
-            className="nav-menu-link font-display text-[clamp(2.5rem,6vw,5.5rem)] leading-none"
-            onClick={(e) => handleNavClick(e, "#gallery")}
-          >
-            <sup className="nav-menu-index">03</sup>
-            <span className="nav-menu-label">Gallery</span>
-          </a>
-          <a
-            href={isHome ? "#location" : "/#location"}
-            className="nav-menu-link font-display text-[clamp(2.5rem,6vw,5.5rem)] leading-none"
-            onClick={(e) => handleNavClick(e, "#location")}
-          >
-            <sup className="nav-menu-index">04</sup>
-            <span className="nav-menu-label">Location</span>
-          </a>
-          <a
-            href={isHome ? "#contact" : "/#contact"}
-            className="nav-menu-link font-display text-[clamp(2.5rem,6vw,5.5rem)] leading-none"
-            onClick={(e) => handleNavClick(e, "#contact")}
-          >
-            <sup className="nav-menu-index">05</sup>
-            <span className="nav-menu-label">Enquire</span>
-          </a>
+          {site.nav.map((item) => (
+            <a
+              key={item.href}
+              href={isHome ? item.href : `/${item.href}`}
+              className="nav-menu-link font-display text-[clamp(2.5rem,6vw,5.5rem)] leading-none"
+              onClick={(e) => handleNavClick(e, item.href)}
+            >
+              <sup className="nav-menu-index">{item.index}</sup>
+              <span className="nav-menu-label">{item.label}</span>
+            </a>
+          ))}
         </nav>
       </dialog>
     </header>

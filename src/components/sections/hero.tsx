@@ -128,6 +128,8 @@ export function HeroSection() {
         <img
           ref={imageRef}
           alt="Sunset aerial view of the Saanidhya Greens clubhouse, sports courts and surrounding landscape."
+          loading="eager"
+          fetchPriority="high"
           decoding="async"
           className="hero-scroll-image-media"
           style={{

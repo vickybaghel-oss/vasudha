@@ -8,7 +8,7 @@ export const metadata = {
 
 export default function NotFound() {
   return (
-    <main className="page-gutter flex min-h-[70vh] flex-col items-center justify-center bg-background py-32 text-center">
+    <main className="page-gutter flex min-h-[75vh] flex-col items-center justify-center bg-background pt-44 pb-28 md:pt-52 md:pb-36 text-center">
       <p className="eyebrow text-accent">404 Error</p>
       <h1 className="editorial-heading mt-4 font-display text-[clamp(3.5rem,7vw,6rem)] text-heading">
         Page Not Found
@@ -18,7 +18,7 @@ export default function NotFound() {
       </p>
       <Link
         href="/"
-        className="mt-8 inline-block rounded-full bg-heading px-8 py-3.5 text-xs font-semibold uppercase tracking-[0.12em] text-white transition-opacity hover:opacity-90"
+        className="mt-8 inline-block rounded-full bg-night px-8 py-3.5 text-xs font-semibold uppercase tracking-[0.12em] text-surface shadow-sm transition-all hover:bg-accent hover:text-white"
       >
         Return to Home
       </Link>

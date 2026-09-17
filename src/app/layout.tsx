@@ -32,10 +32,11 @@ export const metadata: Metadata = {
     siteName: site.name,
     images: [
       {
-        url: "/og-image.webp",
+        url: "/og-image.jpg",
         width: 1200,
         height: 630,
         alt: site.name,
+        type: "image/jpeg",
       },
     ],
     locale: "en_US",
@@ -45,7 +46,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: `${site.name} — ${site.tagline}`,
     description: site.description,
-    images: ["/og-image.webp"],
+    images: ["/og-image.jpg"],
   },
 };
 

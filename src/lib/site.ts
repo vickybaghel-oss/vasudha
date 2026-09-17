@@ -13,6 +13,7 @@ export const site = {
     "+91 95129 00747",
   ],
   email: "info@vasudhaagroup.com",
+  footerKicker: "Premium residential open plots / Vadodara",
   address: {
     street: "Hansapura, opposite Fartikui, Dabhoi Road",
     city: "Vadodara",
@@ -24,10 +25,24 @@ export const site = {
   googleMapsUrl:
     "https://www.google.com/maps/search/?api=1&query=Hansapura%2C%20opposite%20Fartikui%2C%20Dabhoi%20Road%2C%20Vadodara%2C%20Gujarat%2C%20India",
   nav: [
-    { label: "01 Nature", href: "#nature" },
-    { label: "02 Lifestyle", href: "#lifestyle" },
-    { label: "03 Gallery", href: "#gallery" },
-    { label: "04 Location", href: "#location" },
-    { label: "05 Enquire", href: "#contact" },
+    { index: "01", label: "Nature", href: "#nature" },
+    { index: "02", label: "Lifestyle", href: "#lifestyle" },
+    { index: "03", label: "Gallery", href: "#gallery" },
+    { index: "04", label: "Location", href: "#location" },
+    { index: "05", label: "Enquire", href: "#contact" },
   ],
+  footerNav: {
+    project: [
+      { label: "Premium Plots", href: "#luxury" },
+      { label: "Club Lifestyle", href: "#lifestyle" },
+      { label: "Amenities", href: "#amenities" },
+      { label: "Gallery", href: "#gallery" },
+    ],
+    explore: [
+      { label: "Nature", href: "#nature" },
+      { label: "Gallery", href: "#gallery" },
+      { label: "Location", href: "#location" },
+      { label: "Contact", href: "#contact" },
+    ],
+  },
 } as const;

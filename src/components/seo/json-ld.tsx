@@ -17,7 +17,7 @@ export function JsonLd() {
       postalCode: site.address.postalCode,
       addressCountry: site.address.country,
     },
-    image: `${site.domain}/og-image.webp`,
+    image: `${site.url}/og-image.jpg`,
   };
 
   return (

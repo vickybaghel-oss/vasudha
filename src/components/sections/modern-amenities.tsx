@@ -106,11 +106,11 @@ export function ModernAmenities() {
   }, []);
 
   return (
-    <section id="modern-amenities" className="page-gutter bg-[#AF7259] py-28 text-white md:py-40" data-theme="dark">
+    <section id="modern-amenities" className="page-gutter bg-clay py-28 text-white md:py-40" data-theme="dark">
       <div className="mx-auto max-w-[1500px]">
         <div className="grid gap-10 xl:grid-cols-[1fr_0.7fr] xl:items-end">
           <div>
-            <p className="eyebrow text-white/55">05 · Modern amenities</p>
+            <p className="eyebrow text-white">05 · Modern amenities</p>
             <h2
               ref={headingRef}
               className="reveal-text editorial-heading editorial-heading-compact mt-6 font-display text-[clamp(4rem,7vw,7.8rem)] tracking-[-0.04em] text-white"
@@ -119,7 +119,7 @@ export function ModernAmenities() {
               <span>Freedom to indulge.</span>
             </h2>
           </div>
-          <p className="max-w-lg text-sm leading-7 text-white/68">
+          <p className="max-w-lg text-sm leading-7 text-white">
             More than fifty considered features shape the wider development—places for fitness, culture, family, quiet and community.
           </p>
         </div>

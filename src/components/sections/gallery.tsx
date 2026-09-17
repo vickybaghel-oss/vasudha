@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const GALLERY_ITEMS = [
   {
@@ -51,6 +51,25 @@ export function GallerySection() {
   const [activeRotationIndex, setActiveRotationIndex] = useState(0);
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   const dialogRef = useRef<HTMLDialogElement>(null);
+
+  useEffect(() => {
+    const dialog = dialogRef.current;
+    if (!dialog) return;
+
+    const handleCancel = (event: Event) => {
+      event.preventDefault();
+      setLightboxIndex(null);
+      dialog.close();
+    };
+    const handleClose = () => setLightboxIndex(null);
+
+    dialog.addEventListener("cancel", handleCancel);
+    dialog.addEventListener("close", handleClose);
+    return () => {
+      dialog.removeEventListener("cancel", handleCancel);
+      dialog.removeEventListener("close", handleClose);
+    };
+  }, []);
 
   const rotatePrev = () => {
     setActiveRotationIndex((prev) => (prev > 0 ? prev - 1 : GALLERY_ITEMS.length - 1));

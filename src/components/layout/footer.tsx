@@ -1,14 +1,42 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { site } from "@/lib/site";
+import { submitForm } from "@/lib/forms";
 import { smoothScrollToTarget } from "@/lib/smooth-scroll";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 export function Footer() {
   const pathname = usePathname();
   const isHome = !pathname || pathname === "/";
+  const [footerEmail, setFooterEmail] = useState("");
+  const [footerStatus, setFooterStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
+
+  const handleFooterSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!footerEmail.trim()) return;
+    setFooterStatus("submitting");
+
+    try {
+      const { ok } = await submitForm({
+        form: "enquiry",
+        fields: { email: footerEmail.trim() },
+      });
+      if (ok) {
+        setFooterStatus("success");
+        setFooterEmail("");
+      } else {
+        setFooterStatus("error");
+      }
+    } catch {
+      setFooterStatus("error");
+    }
+  };
 
   const handleSectionClick = (e: React.MouseEvent<HTMLAnchorElement>, hash: string) => {
     if (isHome) {
@@ -24,12 +52,12 @@ export function Footer() {
         <Link
           href="/"
           className="site-footer-brand"
-          aria-label="Saanidhya Greens"
+          aria-label={site.name}
           onClick={(e) => handleSectionClick(e, "#hero")}
         >
           <Image
             src="/images/image-01.png"
-            alt="Saanidhya Greens"
+            alt={site.name}
             width={900}
             height={290}
             loading="lazy"
@@ -39,58 +67,28 @@ export function Footer() {
 
         <nav className="site-footer-column" aria-label="Project links">
           <p>Project</p>
-          <a
-            href={isHome ? "#luxury" : "/#luxury"}
-            onClick={(e) => handleSectionClick(e, "#luxury")}
-          >
-            Premium Plots
-          </a>
-          <a
-            href={isHome ? "#lifestyle" : "/#lifestyle"}
-            onClick={(e) => handleSectionClick(e, "#lifestyle")}
-          >
-            Club Lifestyle
-          </a>
-          <a
-            href={isHome ? "#amenities" : "/#amenities"}
-            onClick={(e) => handleSectionClick(e, "#amenities")}
-          >
-            Amenities
-          </a>
-          <a
-            href={isHome ? "#gallery" : "/#gallery"}
-            onClick={(e) => handleSectionClick(e, "#gallery")}
-          >
-            Gallery
-          </a>
+          {site.footerNav.project.map((item) => (
+            <a
+              key={item.href}
+              href={isHome ? item.href : `/${item.href}`}
+              onClick={(e) => handleSectionClick(e, item.href)}
+            >
+              {item.label}
+            </a>
+          ))}
         </nav>
 
         <nav className="site-footer-column" aria-label="Explore links">
           <p>Explore</p>
-          <a
-            href={isHome ? "#nature" : "/#nature"}
-            onClick={(e) => handleSectionClick(e, "#nature")}
-          >
-            Nature
-          </a>
-          <a
-            href={isHome ? "#gallery" : "/#gallery"}
-            onClick={(e) => handleSectionClick(e, "#gallery")}
-          >
-            Gallery
-          </a>
-          <a
-            href={isHome ? "#location" : "/#location"}
-            onClick={(e) => handleSectionClick(e, "#location")}
-          >
-            Location
-          </a>
-          <a
-            href={isHome ? "#contact" : "/#contact"}
-            onClick={(e) => handleSectionClick(e, "#contact")}
-          >
-            Contact
-          </a>
+          {site.footerNav.explore.map((item) => (
+            <a
+              key={item.href}
+              href={isHome ? item.href : `/${item.href}`}
+              onClick={(e) => handleSectionClick(e, item.href)}
+            >
+              {item.label}
+            </a>
+          ))}
         </nav>
 
         <div className="site-footer-column site-footer-connect">
@@ -102,26 +100,48 @@ export function Footer() {
 
         <div className="site-footer-action">
           <p>Begin your enquiry</p>
-          <form className="site-footer-enquiry" action={isHome ? "#contact" : "/#contact"}>
-            <label className="sr-only" htmlFor="footer-email">
-              Email address
-            </label>
-            <input
-              id="footer-email"
-              type="email"
-              placeholder="Enter your email"
-              autoComplete="email"
-              name="email"
-            />
-            <button type="submit" aria-label="Go to enquiry form">
-              →
-            </button>
-          </form>
+          {footerStatus === "success" ? (
+            <p className="mt-2 text-xs text-heading font-medium" role="status" aria-live="polite">
+              Thank you! Your enquiry has been received.
+            </p>
+          ) : (
+            <form
+              className="site-footer-enquiry"
+              onSubmit={handleFooterSubmit}
+              aria-busy={footerStatus === "submitting"}
+            >
+              <Label className="sr-only" htmlFor="footer-email">
+                Email address
+              </Label>
+              <Input
+                id="footer-email"
+                type="email"
+                placeholder="Enter your email"
+                autoComplete="email"
+                required
+                value={footerEmail}
+                onChange={(e) => setFooterEmail(e.target.value)}
+                disabled={footerStatus === "submitting"}
+              />
+              <Button
+                type="submit"
+                aria-label={footerStatus === "submitting" ? "Submitting enquiry" : "Submit enquiry"}
+                disabled={footerStatus === "submitting"}
+              >
+                {footerStatus === "submitting" ? "…" : "→"}
+              </Button>
+            </form>
+          )}
+          {footerStatus === "error" && (
+            <p className="mt-2 text-xs text-red-700" role="alert" aria-live="assertive">
+              Something went wrong. Please call us at {site.phones[0]}.
+            </p>
+          )}
         </div>
       </div>
 
       <div className="site-footer-bottom">
-        <p>Premium residential open plots / Vadodara</p>
+        <p>{site.footerKicker}</p>
         <div>
           <Link href="/privacy/">Privacy</Link>
           <a
@@ -130,7 +150,7 @@ export function Footer() {
           >
             Enquire
           </a>
-          <span>© 2026 Saanidhya Greens</span>
+          <span>© 2026 {site.name}</span>
         </div>
       </div>
     </footer>

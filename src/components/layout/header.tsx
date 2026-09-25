@@ -118,6 +118,25 @@ export function Header() {
       data-dark={isDark ? "true" : "false"}
       data-compact={isCompact ? "true" : "false"}
     >
+      <div className="site-header-developer">
+        <span className="site-header-developer-label">{site.developer.label}</span>
+        <a
+          href={isHome ? "#hero" : "/"}
+          className="site-header-developer-logo-link"
+          aria-label={`${site.developer.name} — ${site.developer.tagline}`}
+          onClick={(e) => handleNavClick(e, "#hero")}
+        >
+          <Image
+            src={site.developer.logo}
+            alt={`${site.developer.name} — ${site.developer.tagline}`}
+            width={120}
+            height={150}
+            priority
+            className="site-header-developer-logo"
+          />
+        </a>
+      </div>
+
       <a
         href={isHome ? "#hero" : "/"}
         className="site-brand"
@@ -134,7 +153,7 @@ export function Header() {
         />
       </a>
 
-      <div className="flex items-center gap-3">
+      <div className="site-header-actions flex items-center gap-3">
         <a
           className="site-enquire"
           href={isHome ? "#contact" : "/#contact"}

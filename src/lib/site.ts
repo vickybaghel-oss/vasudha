@@ -1,5 +1,11 @@
 export const site = {
   name: "Saanidhya Greens",
+  developer: {
+    name: "Vasudhaa",
+    tagline: "Trust | Quality | Value",
+    label: "A Project by",
+    logo: "/images/vasudhaa-logo.png",
+  },
   tagline: "Luxury Plotted Living in Vadodara",
   description:
     "Discover nature-led premium residential plots with a resort clubhouse and extensive lifestyle amenities at Saanidhya Greens, Vadodara.",

@@ -49,21 +49,44 @@ export function Footer() {
   return (
     <footer className="site-footer page-gutter" data-theme="light">
       <div className="site-footer-inner">
-        <Link
-          href="/"
-          className="site-footer-brand"
-          aria-label={site.name}
-          onClick={(e) => handleSectionClick(e, "#hero")}
-        >
-          <Image
-            src="/images/image-01.png"
-            alt={site.name}
-            width={900}
-            height={290}
-            loading="lazy"
-            className="site-footer-brand-logo"
-          />
-        </Link>
+        <div className="site-footer-brand-column">
+          <Link
+            href="/"
+            className="site-footer-brand"
+            aria-label={site.name}
+            onClick={(e) => handleSectionClick(e, "#hero")}
+          >
+            <Image
+              src="/images/image-01.png"
+              alt={site.name}
+              width={900}
+              height={290}
+              loading="lazy"
+              className="site-footer-brand-logo"
+            />
+          </Link>
+
+          <div className="site-footer-brand-divider" aria-hidden="true" />
+
+          <div className="site-footer-developer-row">
+            <span className="site-footer-developer-label">{site.developer.label}</span>
+            <Link
+              href="/"
+              className="site-footer-developer-logo-link"
+              aria-label={`${site.developer.name} — ${site.developer.tagline}`}
+              onClick={(e) => handleSectionClick(e, "#hero")}
+            >
+              <Image
+                src={site.developer.logo}
+                alt={`${site.developer.name} — ${site.developer.tagline}`}
+                width={120}
+                height={150}
+                loading="lazy"
+                className="site-footer-developer-logo"
+              />
+            </Link>
+          </div>
+        </div>
 
         <nav className="site-footer-column" aria-label="Project links">
           <p>Project</p>
